@@ -1,16 +1,22 @@
 # ---
-# title: "Quick gam model"
-# author: "Junqi Liao, Raymond Tan and "
-# date: "10 dicembre 2016"
-# output: html_document
+# title: "Soccer Player Rating Prediction"
+# author: 
+# Junqi Liao 20650701
+# Raymond Tan 
+# 
+# 
+# date: "31 July 2019"
+# output: csv file
 # ---
-#  **Quick Gam Model**
+#  
   
 
 # Importing data and join together player_attributes with player
 
 library(RSQLite)
 library(dplyr)
+
+# extract the zip database file in the data folder and set your own db path
 con <- dbConnect(SQLite(), dbname="/Users/peterliao/Desktop/stat/stat444/project/data/database.sqlite")
 dbListTables(con)
 
