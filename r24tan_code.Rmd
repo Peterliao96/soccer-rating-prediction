@@ -1,0 +1,17 @@
+---
+title: "Final_Project_r24tan"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("/Users/RaymondTan/Desktop/soccer-rating-prediction/data/")
+soccer.raw <- read.table("rating_potential.csv",sep = " ",na.strings = "NA")
+
+```
+
+
+```{r}
+soccer.raw
+```
+
