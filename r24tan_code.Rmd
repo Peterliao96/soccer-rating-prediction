@@ -1,17 +1,55 @@
 ---
 title: "Final_Project_r24tan"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-setwd("/Users/RaymondTan/Desktop/soccer-rating-prediction/data/")
+setwd("/Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/data")
 soccer.raw <- read.table("rating_potential.csv",sep = " ",na.strings = "NA")
 
 ```
 
 
 ```{r}
-soccer.raw
+colnames(soccer.raw)
 ```
+
+* player_name: The name of the player
+* finishing: The accuracy of shots using foot, inside the penalty area
+* dribbling: The ability to kepp possesion of the ball.
+* ball_control: The ability to keep your ball under your feet with velocity.
+* reactions: How quickly a player respinds a situation.
+* stamina: Determine the rate at which a player will tire during a game.
+* interceptions: The ability to intercepts a pass where the ball is going and stop it from going there.
+* marking: The ability to track and defend an opposing player.
+* overall_rating: The rating of the player based on all attributes.
+* heading_accuracy: The accuracy of he player either a pass or a shot by using head.
+* curve: The ability to shoot the ball in a curved shape.
+* acceleration: Increase in the rate of speed of a player.
+* balance: The ability to maintain balance after a physical challenge.
+* strength: The ability to win a physical challenge.
+* positioning: The ability to read the game offensively, get into good positions, make effective runs, and avoid getting caught offside.
+* standing_tackle:The ability of the player to time standing tackles so that they win the ball rather than give away a foul.
+* potential: A peak in overall rating that a player could reach.
+* short_passing: The ability to perform a pass in short distance.
+* free_kick_accuracy: The accuracy of a direct free kick on goal.(Free kick: an unimpeded kick of the stationary ball awared to one side as a penalty for a foul by the other side)
+* sprint_speed: The maximum speed over a short distance of a player.
+* shot_power: How hard can the player hits the ball when taking a shot at goal.
+* long_shots: The accuracy of shots from outside of the penalty area.
+* vision: The player's awareness of the position of his team mates & opponents around him.
+* sliding_tackle: The ability of the player to time sliding tackles so that they win the ball rather than give away a foul.
+* crossing: The accuracy of the player crosses the ball.
+* volleys: The accuracy of a player strike or hit the ball at goal before it touches the ground.
+* long_passing: The ability to perform a long pass in the air and on the ground to his teammate.
+* agility: The ability of a player to move or turn in game.
+* jumping: The vertical distance of a player can jump from the ground.
+* aggression: The frequency & aggression of jostling, tackling & slide tackling.
+* penalties: The ability to take penalties.
+* gk_reflexes: The ability to react a ball in movement at goal by the goal keeper.
+
+
+
+
+
 
