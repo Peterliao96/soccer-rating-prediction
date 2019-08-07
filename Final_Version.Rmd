@@ -14,8 +14,13 @@ knitr::opts_chunk$set(echo = TRUE)
 setwd("/Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/data")
 soccer.raw <- read.table("rating_potential.csv",sep = " ",na.strings = "NA")
 library(glmnet)
+library(data.table)
+library(ggplot2)
+library(MASS)
+set.seed(123)
 ```
 \newpage
+
 
 
 # Motivation and introduction of Report
@@ -30,8 +35,76 @@ library(glmnet)
 # Smoothing Methods
 ## Linear Models
 ### Multiple Linear Regression
+
 ### LASSO Regression
+
 ### Ridge Regression
+
+```{r}
+mse <- function(y,yhat) {
+  return( mean( (y - yhat)^2 ))
+}
+
+
+model.predict <- function(m,data) {
+  
+}
+
+
+```
+
+```{r,echo=FALSE}
+soccer <- soccer.raw
+soccer$player_name <- NULL
+soccer$set <- ifelse(runif(n=nrow(soccer)) > 0.85,yes = 1,no = 2)
+#Split data into training set and testing set
+soccer.train <- soccer[which(soccer$set == 1),]
+soccer.test <- soccer[which(soccer$set ==2),]
+soccer.train$set <- NULL
+soccer.test$set <- NULL
+soccer.train.x <- soccer.train[,2:length(soccer.train)]
+soccer.test.x <- soccer.test[,2:length(soccer.test)]
+
+ridge.info <- c()
+lass.info <- c()
+
+#Fit ridge model
+ridge_model <- glmnet(as.matrix(soccer.train.x),soccer.train$overall_rating,alpha = 0)
+
+#Calculate MSE and MSPE for ridge model
+train.pred <- as.matrix(cbind(const=1,soccer.train.x)) %*% coef(ridge_model)
+test.pred <- as.matrix(cbind(const=1,soccer.test.x)) %*% coef(ridge_model)
+ridge_model.mse <- mse(train.pred,soccer.train$overall_rating)
+ridge_model.mspe <- mse(test.pred,soccer.test$overall_rating)
+ridge.info <- c(ridge_model.mse,ridge_model.mspe)
+
+#Fit Lasso model
+lasso_model <- glmnet(as.matrix(soccer.train.x),soccer.train$overall_rating,alpha = 1)
+train.pred <- as.matrix(cbind(const=1,soccer.train.x)) %*% coef(lasso_model)
+test.pred <- as.matrix(cbind(const=1,soccer.test.x)) %*% coef(lasso_model)
+lasso_model.mse <- mse(train.pred,soccer.train$overall_rating)
+lasso_model.mspe <- mse(test.pred,soccer.test$overall_rating)
+lasso.info <- c(lasso_model.mse,lasso_model.mspe)
+
+ridge_model <- cv.glmnet(as.matrix(soccer.train.x),soccer.train$overall_rating,alpha = 0,nfolds = 5)
+lasso_model <- cv.glmnet(as.matrix(soccer.train.x),soccer.train$overall_rating,alpha = 1,nfolds = 5)
+
+ridge <- lm.ridge(soccer.train$overall_rating ~ .,data = soccer.train)
+best_lambda.ridge <- ridge_model$lambda.1se
+best_lambda.lasso <- lasso_model$lambda.1se
+plot(ridge_model,main = "Ridge Regression")
+plot(lasso_model,main = "Lasso Regression")
+ridge_coeff <- ridge_model$glmnet.fit$beta[,ridge_model$glmnet.fit$lambda == best_lambda.ridge]
+lasso_coeff <- lasso_model$glmnet.fit$beta[,lasso_model$glmnet.fit$lambda == best_lambda.lasso]
+
+
+#Compare Coefficients:
+coeff <- data.table(Lasso = lasso_coeff,Ridge = ridge_coeff)
+coeff[,Features :=names(ridge_coeff)]
+to_plot <- melt(data = coeff,id.vars = 'Features',variable.name = 'Model',value.name = 'Coefficients')
+ggplot(to_plot,aes(x=Features,y=Coefficients,fill=Model)) + coord_flip() + geom_bar(stat = 'identity') + facet_wrap(~ Model) + guides(fill = FALSE)
+```
+
 
 ## Non-Linear Model
 ### GAM
@@ -39,6 +112,7 @@ library(glmnet)
 ###Tensor Producting Smoothing
 
 ### Regression Tree
+### Random Forest
 
 # Statistical Conclusions
 
@@ -84,35 +158,6 @@ library(glmnet)
 * gk_reflexes: The ability to react a ball in movement at goal by the goal keeper.
 
 
-```{r}
-colnames(soccer.raw)
-```
-
 ## R-Code
 ```{r ref.label=knitr::all_labels(), echo = T, eval = F}
 ```
-
-
-
-
-
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
