@@ -263,7 +263,7 @@ Gradient boosting is a machine learning technique for regression and classificat
         Mean Square Prediction Error & 1.834120 \\
         \hline
     \end{tabular}
-    \caption{Tuning results using caret package}
+    \caption{MSE and MSPE for the model using caret package to tune parameters}
 \end{table}
 
 \noindent Also, we want to track MSE and MSPE for each iteration, so the following also provides us with some thoughts:\\
@@ -290,7 +290,7 @@ Gradient boosting is a machine learning technique for regression and classificat
         subsample & 1.0\\
         \hline
     \end{tabular}
-    \caption{Tuning results using caret package}
+    \caption{Candidates for tuning parameters}
 \end{table}
 
 \noindent Noted that as we have more candidates for tuning the parameters, it will take some time to tune the best candidate. After we find the best candidate, \verb xgb \ also gives us trained model. This model provides the results of test RMSE for all possible candidates of parameters since we set the metric as RMSE. We want to how test RMSE behaves. Therefore, the plots of MSPE vs. \# of iteration and MSPE vs. shrinkage are provided below.\\
@@ -311,7 +311,7 @@ Gradient boosting is a machine learning technique for regression and classificat
         Mean Square Prediction Error & 1.318292 \\
         \hline
     \end{tabular}
-    \caption{Tuning results using caret package}
+    \caption{MSE and MSPE for the model using grid search tuning}
 \end{table}
 
 \noindent From the above result, the second method gives us better performance on finding the best tuning parameter than the performance on the first one. How about their variable importance and model complexity? We plot the variable importance as follows.\\
