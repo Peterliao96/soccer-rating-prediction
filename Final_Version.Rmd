@@ -10,6 +10,7 @@ highlighted: tango
 ---
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(echo = TRUE)
 setwd("/Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/data")
 soccer.raw <- read.table("rating_potential.csv",sep = " ",na.strings = "NA")
@@ -17,9 +18,11 @@ library(glmnet)
 library(data.table)
 library(ggplot2)
 library(MASS)
+library(rpart)
+library(rpart.plot)
 set.seed(123)
 ```
-\newpage
+
 
 
 
@@ -40,14 +43,9 @@ set.seed(123)
 
 ### Ridge Regression
 
-```{r}
+```{r,echo=FALSE}
 mse <- function(y,yhat) {
   return( mean( (y - yhat)^2 ))
-}
-
-
-model.predict <- function(m,data) {
-  
 }
 
 
@@ -66,7 +64,10 @@ soccer.train.x <- soccer.train[,2:length(soccer.train)]
 soccer.test.x <- soccer.test[,2:length(soccer.test)]
 
 ridge.info <- c()
+ridge.cv.info <- c()
+
 lass.info <- c()
+lass.cv.nfo <- c()
 
 #Fit ridge model
 ridge_model <- glmnet(as.matrix(soccer.train.x),soccer.train$overall_rating,alpha = 0)
@@ -86,32 +87,78 @@ lasso_model.mse <- mse(train.pred,soccer.train$overall_rating)
 lasso_model.mspe <- mse(test.pred,soccer.test$overall_rating)
 lasso.info <- c(lasso_model.mse,lasso_model.mspe)
 
+
+#Fit model with cross validation
 ridge_model <- cv.glmnet(as.matrix(soccer.train.x),soccer.train$overall_rating,alpha = 0,nfolds = 5)
 lasso_model <- cv.glmnet(as.matrix(soccer.train.x),soccer.train$overall_rating,alpha = 1,nfolds = 5)
 
-ridge <- lm.ridge(soccer.train$overall_rating ~ .,data = soccer.train)
 best_lambda.ridge <- ridge_model$lambda.1se
 best_lambda.lasso <- lasso_model$lambda.1se
+par(mfrow=c(1,2))
 plot(ridge_model,main = "Ridge Regression")
 plot(lasso_model,main = "Lasso Regression")
 ridge_coeff <- ridge_model$glmnet.fit$beta[,ridge_model$glmnet.fit$lambda == best_lambda.ridge]
 lasso_coeff <- lasso_model$glmnet.fit$beta[,lasso_model$glmnet.fit$lambda == best_lambda.lasso]
 
+train.pred <- predict(ridge_model,as.matrix(soccer.train.x),s = "lambda.1se")
+test.pred <- predict(ridge_model,as.matrix(soccer.test.x),s = "lambda.1se")
+ridge_model.cv.mse <- mse(train.pred,soccer.train$overall_rating)
+ridge_model.cv.mspe <- mse(test.pred,soccer.test$overall_rating)
+ridge.cv.info <- c(ridge_model.cv.mse,ridge_model.cv.mspe)
 
+train.pred <- predict(lasso_model,as.matrix(soccer.train.x),s = "lambda.1se")
+test.pred <- predict(lasso_model,as.matrix(soccer.test.x),s = "lambda.1se")
+lasso.cv.mse <- mse(train.pred,soccer.train$overall_rating)
+lasso.cv.mspe <- mse(test.pred,soccer.test$overall_rating)
+lasso.cv.info <- c(lasso.cv.mse,lasso.cv.mspe)
+
+err <- as.table(rbind(ridge.info,lasso.info,ridge.cv.info,lasso.cv.info))
+colnames(err) <- c("MSE","MSPE")
+rownames(err) <- c("Ridge","LASSO","RidgeCV","LASSOCV")
+
+
+err
+```
+
+```{r,echo=FALSE}
 #Compare Coefficients:
 coeff <- data.table(Lasso = lasso_coeff,Ridge = ridge_coeff)
 coeff[,Features :=names(ridge_coeff)]
 to_plot <- melt(data = coeff,id.vars = 'Features',variable.name = 'Model',value.name = 'Coefficients')
-ggplot(to_plot,aes(x=Features,y=Coefficients,fill=Model)) + coord_flip() + geom_bar(stat = 'identity') + facet_wrap(~ Model) + guides(fill = FALSE)
+ ggplot(to_plot,aes(x=Features,y=Coefficients,fill=Model)) + coord_flip() + geom_bar(stat = 'identity') + facet_wrap(~ Model) + guides(fill = FALSE)
 ```
 
 
 ## Non-Linear Model
 ### GAM
 
-###Tensor Producting Smoothing
+### Tensor Producting Smoothing
 
 ### Regression Tree
+```{r,echo=FALSE}
+rt <- rpart(data = soccer.train, soccer.train$overall_rating ~ . , method = 'anova')
+prp(rt, type=1, extra=1, main="Original full tree")
+rt$cptable[,c(2:5,1)]
+rt.cpt <- rt$cptable
+minrow <- which.min(rt.cpt[,4])
+se.row <- min(which(rt.cpt[,4] < rt.cpt[minrow,4] + rt.cpt[minrow,5]))
+cplow.1se <- rt.cpt[se.row,1]
+cpup.1se <- ifelse(se.row==1,yes=1, no = rt.cpt[se.row-1,1])
+cp.1se <- sqrt(cplow.1se*cpup.1se)
+prune.1se <- prune(rt,cp = cp.1se)
+plotcp(prune.1se)
+
+cplow.min <- rt.cpt[minrow,1]
+cpup.min <- ifelse(minrow==1, yes = 1, no = rt.cpt[minrow-1,1])
+cp.min <- sqrt(cplow.min*cpup.min)
+prune.mincp <- prune(rt,cp = cp.min)
+plotcp(prune.mincp)
+prp(prune.1se, type=1, extra=1, main="Pruned Tree")
+prp(prune.mincp, type=1, extra=1, main="Pruned minTree")
+
+```
+
+
 ### Random Forest
 
 # Statistical Conclusions
