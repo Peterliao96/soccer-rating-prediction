@@ -20,6 +20,7 @@ library(ggplot2)
 library(MASS)
 library(rpart)
 library(rpart.plot)
+library(randomForest)
 set.seed(123)
 ```
 
@@ -54,10 +55,10 @@ mse <- function(y,yhat) {
 ```{r,echo=FALSE}
 soccer <- soccer.raw
 soccer$player_name <- NULL
-soccer$set <- ifelse(runif(n=nrow(soccer)) > 0.85,yes = 1,no = 2)
+soccer$set <- ifelse(runif(n=nrow(soccer)) > 0.85,yes = 2,no = 1)
 #Split data into training set and testing set
 soccer.train <- soccer[which(soccer$set == 1),]
-soccer.test <- soccer[which(soccer$set ==2),]
+soccer.test <- soccer[which(soccer$set == 2),]
 soccer.train$set <- NULL
 soccer.test$set <- NULL
 soccer.train.x <- soccer.train[,2:length(soccer.train)]
@@ -135,27 +136,123 @@ to_plot <- melt(data = coeff,id.vars = 'Features',variable.name = 'Model',value.
 ### Tensor Producting Smoothing
 
 ### Regression Tree
+
+```{r,echo= FALSE}
+calErr <- function(tree,data,y) {
+  y.hat <- predict(tree, newdata = data)
+  return(mse(y,y.hat))
+}
+```
+
 ```{r,echo=FALSE}
+
 rt <- rpart(data = soccer.train, soccer.train$overall_rating ~ . , method = 'anova')
+pruneTree.1se <- function(tree) {
+  tree$cptable[,c(2:5,1)]
+  tree.cpt <- tree$cptable
+  minrow <- which.min(tree.cpt[,4])
+  se.row <- min(which(tree.cpt[,4] < tree.cpt[minrow,4] + tree.cpt[minrow,5]))
+  cplow.1se <- tree.cpt[se.row,1]
+  cpup.1se <- ifelse(se.row==1, yes=1, no = tree.cpt[se.row-1,1])
+  cp.1se <<- sqrt(cplow.1se*cpup.1se)
+  print(cp.1se)
+  prune.1se <- prune(tree,cp = cp.1se )
+  return(prune.1se)
+}
+
+pruneTree.min <- function(tree) {
+  tree$cptable[,c(2:5,1)]
+  tree.cpt <- tree$cptable
+  minrow <- which.min(tree.cpt[,4])
+  cplow.min <- tree.cpt[minrow,1]
+  cpup.min <- ifelse(minrow==1, yes = 1, no = tree.cpt[minrow-1,1])
+  cp.min <<- sqrt(cplow.min * cpup.min)
+  prune.mincp <- prune(tree,cp = cp.min)
+  return(prune.mincp)
+}
+
+prune.1se <- pruneTree.1se(rt)
+prune.mincp <- pruneTree.min(rt)
+
+
 prp(rt, type=1, extra=1, main="Original full tree")
-rt$cptable[,c(2:5,1)]
-rt.cpt <- rt$cptable
-minrow <- which.min(rt.cpt[,4])
-se.row <- min(which(rt.cpt[,4] < rt.cpt[minrow,4] + rt.cpt[minrow,5]))
-cplow.1se <- rt.cpt[se.row,1]
-cpup.1se <- ifelse(se.row==1,yes=1, no = rt.cpt[se.row-1,1])
-cp.1se <- sqrt(cplow.1se*cpup.1se)
-prune.1se <- prune(rt,cp = cp.1se)
+
+#Calculating Unpruned Regression tree MSE and MSPE
+rt.mse <- calErr(rt,soccer.train.x,soccer.train$overall_rating)
+rt.mspe <- calErr(rt,soccer.test.x,soccer.test$overall_rating)
+rt.info <- c(rt.mse,rt.mspe)
+rt.info
+
+#Calculating pruned Regression tree MSE and MSPE
+prune.1se.mse <- calErr(prune.1se,soccer.train.x,soccer.train$overall_rating)
+prune.1se.mspe <- calErr(prune.1se,soccer.test.x,soccer.test$overall_rating)
+prune.1se.info <- c(prune.1se.mse,prune.1se.mspe)
+
+prune.1se.info
+
+prune.mincp.mse <- calErr(prune.mincp,soccer.train.x,soccer.train$overall_rating)
+prune.mincp.mspe <- calErr(prune.mincp,soccer.test.x,soccer.test$overall_rating)
+prune.mincp.info <- c(prune.mincp.mse,prune.mincp.mspe)
+
+prune.mincp.info
+
+
+err1 <- as.table(rbind(rt.info,prune.1se.info,prune.mincp.info))
+colnames(err1) <- c("MSE","MSPE")
+rownames(err1) <- c("RT","1se","min")
+```
+
+```{r,echo = FALSE}
+par(mfrow=c(1,2))
+prp(prune.1se, type=1, extra=1, main="Pruned+1se Tree")
+prp(prune.mincp, type=1, extra=1, main="Pruned+mincp Tree")
+```
+
+
+```{r,echo = FALSE}
+
+par(mfrow=c(1,2))
 plotcp(prune.1se)
-
-cplow.min <- rt.cpt[minrow,1]
-cpup.min <- ifelse(minrow==1, yes = 1, no = rt.cpt[minrow-1,1])
-cp.min <- sqrt(cplow.min*cpup.min)
-prune.mincp <- prune(rt,cp = cp.min)
 plotcp(prune.mincp)
-prp(prune.1se, type=1, extra=1, main="Pruned Tree")
-prp(prune.mincp, type=1, extra=1, main="Pruned minTree")
+```
 
+
+```{r,echo=FALSE}
+#Build Regression tree as large as possible
+rt.cp0 <- rpart(data = soccer.train, soccer.train$overall_rating ~ ., method = "anova", cp = 0)
+par(mfrow=c(1,2))
+prune.1se <- pruneTree.1se(rt.cp0)
+prune.mincp <- pruneTree.min(rt.cp0)
+head(prune.1se$variable.importance)
+head(prune.mincp$variable.importance)
+
+
+rt.cp0.mse <- calErr(rt.cp0,soccer.train.x,soccer.train$overall_rating)
+rt.cp0.mspe <- calErr(rt.cp0,soccer.test.x,soccer.test$overall_rating)
+rt.cp0.info <- c(rt.cp0.mse,rt.cp0.mspe)
+
+
+
+#Calculating pruned Regression tree MSE and MSPE
+prune.1se.mse <- calErr(prune.1se,soccer.train.x,soccer.train$overall_rating)
+prune.1se.mspe <- calErr(prune.1se,soccer.test.x,soccer.test$overall_rating)
+prune.1se.info <- c(prune.1se.mse,prune.1se.mspe)
+
+
+prune.mincp.mse <- calErr(prune.mincp,soccer.train.x,soccer.train$overall_rating)
+prune.mincp.mspe <- calErr(prune.mincp,soccer.test.x,soccer.test$overall_rating)
+prune.mincp.info <- c(prune.mincp.mse,prune.mincp.mspe)
+
+
+err2 <- as.table(rbind(rt.cp0.info,prune.1se.info,prune.mincp.info))
+colnames(err2) <- c("MSE","MSPE")
+rownames(err2) <- c("RT","1se","min")
+
+```
+
+```{r}
+err1
+err2
 ```
 
 
