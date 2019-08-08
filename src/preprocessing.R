@@ -29,6 +29,9 @@ joint_player_stats<-  player_stats %>%
   rename(player_stats_id = id) %>%
   left_join(player, by = "player_api_id")
 
+# check dimension
+dim(joint_player_stats)
+
 #average of overall rating , average of potential 
 rating_potential<-aggregate(cbind(overall_rating,potential,crossing,finishing,heading_accuracy,short_passing,volleys,dribbling,curve,free_kick_accuracy,long_passing,ball_control,acceleration,sprint_speed,       
                                   agility,reactions, balance  ,           
@@ -39,6 +42,21 @@ rating_potential<-aggregate(cbind(overall_rating,potential,crossing,finishing,he
                                   sliding_tackle,gk_reflexes)~factor(player_name),data=joint_player_stats,mean)
 colnames(rating_potential)[1]<-"player_name"
 
+# check dimension again
+dim(rating_potential)
+
+# some observations for specific attributes
+hist(rating_potential[,2:32]$gk_reflexes, xlab='gk_reflexes', main='Histogram of gk_reflexes before transformation')
+
+transform.gk_reflexes<-function(x){
+  ifelse(x > 25,x-55,x)
+}
+rating_potential[,2:32]$gk_reflexes<- transform.gk_reflexes(rating_potential[,2:32]$gk_reflexes)
+hist(rating_potential$gk_reflexes,xlab='gk_relexes',main='Histogram of gk_reflexes after transformation')
+
+# check if there is NA
+colSums(is.na(rating_potential))
+# dbWriteTable(con, 'rating_potential',rating_potential,overwrite = TRUE)
 # write the table rating_potential.csv to Github for teammate use
 write.table(rating_potential, file = "rating_potential.csv")
 dbDisconnect(con)

@@ -1,0 +1,15 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Data}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Problem}{section.1}% 3
+\BOOKMARK [1][-]{section.2}{Exploratory Data Analysis}{}% 4
+\BOOKMARK [2][-]{subsection.2.1}{Dimension of the Dataframe}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.2}{Relationship between Exploratory and Response}{section.2}% 6
+\BOOKMARK [1][-]{section.3}{Linear Model}{}% 7
+\BOOKMARK [2][-]{subsection.3.1}{LASSO Regression}{section.3}% 8
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Definition}{subsection.3.1}% 9
+\BOOKMARK [3][-]{subsubsection.3.1.2}{Analysis}{subsection.3.1}% 10
+\BOOKMARK [1][-]{section.4}{Non-parametric Model}{}% 11
+\BOOKMARK [2][-]{subsection.4.1}{Gradient Boosting \(Tree-based\)}{section.4}% 12
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Definition}{subsection.4.1}% 13
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Analysis}{subsection.4.1}% 14
+\BOOKMARK [1][-]{section*.2}{References}{}% 15
