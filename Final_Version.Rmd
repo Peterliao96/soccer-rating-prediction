@@ -808,8 +808,6 @@ err.xgboost
 
 Also, we want to track MSE and MSPE for each iteration, so the following also provides us with some thoughts:
 
-
-
 ```{r,echo=FALSE,out.width = '100%',fig.cap="Training Error and Test Error V.S Iterations",fig.pos="h"}
 knitr::include_graphics("/Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/report/fig2.png")
 ```
@@ -864,12 +862,16 @@ knitr::include_graphics("/Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer
 
 
 
-
-
-
-
-
 ## Regression Tree
+### Definition
+The regression tree only produces a numerical variable with mixture of continuous and categorical predictor variables. Regression splits features of the data into M disjoint regions $R_1,R_2,...,R_m$ and fits a piecewise constant-model 
+$$
+\mu(x) = \sum_{m=1}^{M} c_m I(x \in R_m)
+$$
+
+to these M regions. It is designed to approximate continuous valued functions, instead of being used for classification methods.
+
+### Analysis
 
 ```{r,echo= FALSE}
 calErr <- function(tree,data,y) {
@@ -934,11 +936,13 @@ colnames(err1) <- c("MSE","MSPE")
 rownames(err1) <- c("RT","1se","min")
 ```
 
-```{r eval=FALSE,include=FALSE}
+```{r eval=FALSE, include=FALSE}
 par(mfrow=c(1,2))
 plotcp(prune.1se)
 plotcp(prune.mincp)
 ```
+
+
 
 
 ```{r,echo=FALSE}
@@ -947,14 +951,17 @@ rt.cp0 <- rpart(data = soccer.train, soccer.train$overall_rating ~ ., method = "
 par(mfrow=c(1,2))
 prune.1se <- pruneTree.1se(rt.cp0)
 prune.mincp <- pruneTree.min(rt.cp0)
+paste("The top 6 important variables in largest possible regression tree")
+head(rt$variable.importance)
+paste("The top 6 important variables in largest possible regression tree for optimal lambda",cp.1se)
 head(prune.1se$variable.importance)
+paste("The top 6 important variables in largest possible regression treefor lambda min",cp.min)
 head(prune.mincp$variable.importance)
 
 
 rt.cp0.mse <- calErr(rt.cp0,soccer.train.x,soccer.train$overall_rating)
 rt.cp0.mspe <- calErr(rt.cp0,soccer.test.x,soccer.test$overall_rating)
 rt.cp0.info <- c(rt.cp0.mse,rt.cp0.mspe)
-
 
 
 #Calculating pruned Regression tree MSE and MSPE
@@ -972,20 +979,56 @@ err2 <- as.table(rbind(rt.cp0.info,prune.1se.info,prune.mincp.info))
 colnames(err2) <- c("MSE","MSPE")
 rownames(err2) <- c("RT","1se","min")
 
+
 ```
 
+The table from above shows the top 6 important variables in regression tree for both $\lambda_{1se}$ and $\lambda_{min}$ with reactions being the most important variable.
 
 ```{r}
-err1
+paste("The MSE and MSPE table for the largest possible tree(cp = 0)")
 err2
+
 ```
 
+From the table above, the original largest tree,RT, has the lowest err in terms fo MSE and MSPE, followed by prune with 1se rule, prune by min rule. The reason is that, there exist an over-fitting problem in the original largest tree and regression tree pruning reduces the risk of over-fitting by removing nodes that results in greatest improvement.
+
+
+```{r echo=FALSE}
+opt.info <- c(2.436565,2.314814)
+```
+
+
 ## Random Forest
+###Definiton
+A random forest is consists of a ensemble of regression trees/decision trees, each capable of producing a response varaible when feeding a set of preditors as input. For regression problem, the response variable classifies which category does the predictor belongs to, by growing simple trees to vote for the most popular category. Forregression problems, the reponses vairables is an estimate of the explanatory variables. Random forest randomly sampling with replacement,boostrapping, of training data when growing and randomly selectes subsets of features when splitting node.
+
+
+
+### Analysis
 ```{r eval=FALSE, include=FALSE}
 #try 1000 trees
 t <- seq(500,2500,500)
 p <- length(colnames(soccer.train))
 m <- ceiling(c(1,p/5,p/6,p/8))
+```
+
+
+```{r,echo=FALSE,out.width = '100%',fig.cap="Optimal mtry=7 and Optimal ntree=1500"}
+knitr::include_graphics("/Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/report/tune_rf_para.png")
+```
+
+
+
+
+
+```{r echo=FALSE}
+rf.oob.table <- as.table(rbind(c("OOB","MSPE"),opt.info))
+colnames(rf.oob.table) <- c("","")
+```
+
+
+```{r echo=FALSE}
+rf.oob.table
 ```
 
 
@@ -998,8 +1041,19 @@ yhat<- predict(rf.opt,soccer.test)
 mspes.opt <- sqrt(mse(soccer.test$overall_rating,yhat))
 
 rf.cv <- rfcv(trainx = soccer.train.x,trainy = soccer.train$overall_rating,ntree = 1500,cv.fold = 5)
-opt.info <- c(OOB.opt,mspes.opt)
+opt.info1 <- c(OOB.opt,mspes.opt)
 ```
+
+
+```{r,echo=FALSE,out.width = '100%',fig.cap="Variance Importance plot for tunned mtry=7 and ntree=1500"}
+knitr::include_graphics("/Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/report/varImpPlot_rf_opt.png")
+```
+
+
+```{r,echo=FALSE,out.width = '100%',fig.cap="Variable Importance for tunned mtry=7 and ntree=1500 with 15 variables"}
+knitr::include_graphics("/Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/report/varImpPlot_rf_final.png")
+```
+
 
 
 
@@ -1130,3 +1184,6 @@ From: http://www.statsoft.com/Textbook/Generalized-Additive-Models.
 
 Feature importance in random forests when features are correlated \newline
 From: http://corysimon.github.io/articles/feature-importance-in-random-forests-when-features-are-correlated/
+
+Statistics What is random forest?\newline
+From: http://www.statsoft.com/Textbook/Random-Forest
