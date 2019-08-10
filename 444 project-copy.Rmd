@@ -1,0 +1,213 @@
+---
+title: "444 project"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r message=FALSE, include=FALSE}
+# Setup
+
+library(RSQLite)
+library(pdp)
+library(dplyr)
+library(leaps)
+library(earth)
+library(data.table)
+library(mgcv)
+library(gridExtra)
+library(ggplot2)
+library(leaps)
+library(car)
+library(Metrics)
+library(phia)
+library(glmnet)
+library(caret)
+library(gamclass)
+
+set.seed(123)
+con <- dbConnect(SQLite(), dbname="/Users/peterliao/Desktop/stat/stat444/project1/data/database.sqlite")
+dbListTables(con)
+
+soccer<- tbl_df(dbGetQuery(con,"SELECT * FROM rating_potential"))
+
+df.soccer <-as.data.frame(soccer)
+# Function for calculating mse and mspe
+
+mse=function(x,y){
+  mean((x-y)^2)
+}
+
+# Creating training and test sets
+
+df.soccer$set <- ifelse(runif(n=nrow(df.soccer))>0.85, yes=2, no=1)
+soccer.train <- df.soccer[which(df.soccer$set==1),]
+soccer.test <- df.soccer[which(df.soccer$set==2),]
+soccer.train$set=NULL
+soccer.test$set=NULL
+
+mse.step=cbind(1,1)
+colnames(mse.step)=c("mse","mspe")
+
+mse.lasso=cbind(1,1)
+colnames(mse.lasso)=c("mse","mspe")
+
+mse.lasso1=cbind(1:2,1)
+colnames(mse.lasso1)=c("mse","mspe")
+rownames(mse.lasso1)=c("original","updated")
+
+mse.gam=cbind(1,1)
+colnames(mse.gam)=c("mse","mspe")
+```
+
+
+```{r echo=FALSE}
+## variable selection using stepwise regression
+
+
+# Defining mininum model and scope
+min.model=lm(overall_rating~1,data=soccer.train)
+max.model=formula(lm(overall_rating~.,data=soccer.train))
+
+# Stepwise using both forward and backward with BIC 
+soccer.step=step(min.model,direction = "both",scope = max.model,trace=F,criteria=BIC)
+
+# Calculate msem mspe and vif
+soccer.step.predict=predict(soccer.step,newdata=soccer.test[-1])
+soccer.step.predict1=predict(soccer.step,newdata=soccer.train[-1])
+
+mse.step[1]=mse(soccer.train$overall_rating,soccer.step.predict1)
+mse.step[2]=mse(soccer.test$overall_rating,soccer.step.predict)
+```
+
+First we need to do variable selection for multiple linear regression. Since there are more than 30 variables in the model, stepwise regression from both ways is chosen to do the selection since it’s more efficient than the best subset selection. The final model from the regression is:
+
+Overall_rating = potential + crossing + heading_accuracy + short_passing+volleys +
+dribbling + curve + long_passing + acceleration + sprint_speed+reactions + 
+shot_power + jumping + stamina + strength + aggression+Interceptions + 
+vision + penalties + standing_tackle + sliding_tackle + gk_reflexes
+
+The final model involves 17 variables which is still a large model. The mse and mspe are:
+```{r echo=FALSE}
+mse.step
+vif(soccer.step)
+```
+
+which are acceptable. But when we check the variance inflation factor (VIF), the problem of collinearity appears. After we check the variable importance it is quite hard to determine which variable to drop, and thus we choose another way to select variables, which is LASSO. 
+```{r echo=FALSE}
+## Variable selection using LASSO
+soccer.train.x <- soccer.train[,2:length(soccer.train)]
+lasso.model <- glmnet(as.matrix(soccer.train.x),soccer.train$overall_rating,alpha = 1)
+
+# Fitting the model with lasso's selection
+soccer.lasso=lm(overall_rating~potential+crossing+heading_accuracy+short_passing+volleys+
+                  dribbling+curve+long_passing+acceleration+sprint_speed
+                +reactions+shot_power+jumping+stamina+strength+aggression+interceptions+
+                  vision+penalties+standing_tackle+sliding_tackle+gk_reflexes,data=soccer.train)
+
+# Calculate mse,mspe and vif.
+soccer.lasso.predict=predict(soccer.lasso,newdata=soccer.test[-1])
+soccer.lasso.predict1=predict(soccer.lasso,newdata=soccer.train[-1])
+
+mse.lasso[1]=mse(soccer.train$overall_rating,soccer.lasso.predict1)
+mse.lasso[2]=mse(soccer.test$overall_rating,soccer.lasso.predict)
+mse.lasso1[1,1]=mse.lasso[1]
+mse.lasso1[1,2]=mse.lasso[2]
+```
+The model and the errors obtain from LASSO are:
+    Overall_rating = potential + crossing + heading_accuracy + short_passing+volleys +
+dribbling + curve + long_passing + acceleration + sprint_speed+reactions + 
+shot_power + jumping + stamina + strength + aggression+Interceptions + 
+vision + penalties + standing_tackle + sliding_tackle + gk_reflexes
+```{r echo=FALSE}
+mse.lasso
+```
+which turns out to be a even larger model than the previous one, containing 22 variables. Since both mse and mspe are close the previous model, we decides to drop some variables from the model based on VIF and their variable importance. The VIF and variable importance are:
+```{r echo=FALSE}
+vif(soccer.lasso)
+varImp(soccer.lasso)
+```
+It is obvious that there’s a huge problem of collinearity between standing tackle and sliding tackle, we drop the less important one which is standing tackle and get the following results:
+```{r echo=FALSE}
+soccer.lasso2=update(soccer.lasso,.~.-standing_tackle)
+
+soccer.lasso2.predict=predict(soccer.lasso2,newdata=soccer.test[-1])
+soccer.lasso2.predict1=predict(soccer.lasso2,newdata=soccer.train[-1])
+
+mse.lasso1[2,1]=mse(soccer.train$overall_rating,soccer.lasso2.predict1)
+mse.lasso1[2,2]=mse(soccer.test$overall_rating,soccer.lasso2.predict)
+
+mse.lasso1
+vif(soccer.lasso2)
+
+```
+
+It seem that there’re still some terms with a high VIF, but since all of them have a relatively high variable importance, we decide not to drop them and instead get rid of those variables with low importance to decrease the variance of the model. After some tuning the final multiple linear regression model we get is:
+
+Overall_rating = potential + crossing + short_passing+volleys +
+dribbling + long_passing + sprint_speed+reactions + 
+ jumping + stamina + strength + Interceptions + 
+vision + penalties + sliding_tackle + gk_reflexes
+```{r echo=FALSE}
+soccer.lasso1=update(soccer.lasso,.~.-standing_tackle-acceleration-heading_accuracy-
+                       shot_power-curve-aggression)
+
+soccer.lasso1.predict=predict(soccer.lasso1,newdata=soccer.test[-1])
+soccer.lasso1.predict1=predict(soccer.lasso1,newdata=soccer.train[-1])
+
+mse.lasso1[2,1]=mse(soccer.train$overall_rating,soccer.lasso1.predict1)
+mse.lasso1[2,2]=mse(soccer.test$overall_rating,soccer.lasso1.predict)
+
+mse.lasso1
+```
+with a similar predicting error and a lower testing error compare to the original model, and less collinearity compare to the model selected with stepwise regression.
+
+```{r}
+
+## Generalized additive model 
+
+name.soccer<-names(df.soccer)[2:32]
+
+fm.s.temp <- paste('s(', name.soccer[-1], ')', sep = "", collapse = ' + ')
+fm.s <- as.formula(paste('overall_rating ~', fm.s.temp))
+
+m.s <-gam(fm.s,data=soccer.train[,2:32],method="REML")
+plot(m.s)
+summary(m.s)
+pred.gam.s <- predict(m.s,newdata=soccer.test[,2:32])
+predTrain.gam.s <- predict(m.s,newdata = soccer.train[,2:32])
+sqrt(mse(soccer.test[,2],pred.gam.s))
+sqrt(mse(soccer.train[,2],predTrain.gam.s))
+gam.check(m.s)
+plot(m.s)
+earth.soccer<-earth(soccer.train[,3:32],soccer.train$overall_rating,degree=2,pmethod="backward")
+summary(earth.soccer)
+
+fm.ti.inter <- as.formula(paste('overall_rating ~',fm.s.temp, 
+'+ ti(potential,gk_reflexes) + ti(dribbling,strength) + ti(dribbling,marking) + ti(ball_control,gk_reflexes) + ti(ball_control,gk_reflexes)'))
+fm.ti.inter
+m.ti.inter <- gam(fm.ti.inter,data=soccer.train[,2:32],family = gaussian)
+pred.gam.ti.inter <- predict(m.ti.inter,newdata = soccer.test[,2:32])
+predTrain.gam.ti.inter <- predict(m.ti.inter,soccer.train[,2:32])
+sqrt(mse(soccer.test[,2],pred.gam.ti.inter))
+sqrt(mse(soccer.train[,2],predTrain.gam.ti.inter))
+gam.check(m.ti.inter)
+anova(m.ti.inter)
+#soccer.gam=train(overall_rating~.,data=soccer.train,method='bam',metric="RMSE")
+
+
+#soccer.gam.predict=predict(soccer.gam,newdata=soccer.test[-1])
+#soccer.gam.predict1=predict(soccer.gam,newdata=soccer.train[-1])
+
+#mse.gam[1]=mse(soccer.train$overall_rating,soccer.gam.predict1)
+#mse.gam[2]=mse(soccer.test$overall_rating,soccer.gam.predict)
+
+# mse.gam
+
+
+
+```
+
+
+
+

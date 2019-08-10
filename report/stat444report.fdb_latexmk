@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1565301727 "stat444report.tex" "stat444report.pdf" "stat444report" 1565301728
-  "/dev/null" 1565301721 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1565420086 "stat444report.tex" "stat444report.pdf" "stat444report" 1565420088
+  "/dev/null" 1565420086 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -210,17 +210,17 @@
   "ratingboost2Complexity.png" 1565290159 22136 1024088a9beabb8a15512ce8227a35db ""
   "ratingboostComplexity.png" 1565235359 22745 ef495fbca5bc9f16443808db43ec6af1 ""
   "scatterplot1.png" 1562359027 72085 1d0db00f74d03773df6f78706944edc7 ""
-  "stat444report.aux" 1565301728 4640 c5be287033ab3012973d3b54d572e45c "pdflatex"
-  "stat444report.out" 1565301728 957 4e188957f4b3b2682152a1fab6d15533 "pdflatex"
-  "stat444report.tex" 1565301725 20623 1eaa95cfc7b7faadc114aced5182f542 ""
-  "stat444report.toc" 1565301728 1224 5bb54e34784595fae6742e6835f50887 "pdflatex"
+  "stat444report.aux" 1565420087 5481 5843dcf9b6abd6509a9e7f79174c9581 "pdflatex"
+  "stat444report.out" 1565420087 1171 5b5c300edd7f309a5d3d6297cf2a33ad "pdflatex"
+  "stat444report.tex" 1565420086 23730 eab5e52b5e3ba07b2b1fa5883c7da3fa ""
+  "stat444report.toc" 1565420087 1489 ba2c9287415fdd1a51236453f8df8797 "pdflatex"
   "varImpXgb.png" 1565233075 37063 812662a7843a5feeb570279241bd872c ""
   "varImpXgb2.png" 1565290259 35234 82f67a3e188b78c85556ec876b4c9a5c ""
   "xgb1TestErr.png" 1565295902 31415 c9a172fbe1b8769ac01749323ee70f29 ""
   "xgb1trainingErr.png" 1565295884 33417 94676a4824f0246ee577010606414f3e ""
   (generated)
-  "stat444report.toc"
   "stat444report.out"
+  "stat444report.log"
+  "stat444report.toc"
   "stat444report.pdf"
   "stat444report.aux"
-  "stat444report.log"

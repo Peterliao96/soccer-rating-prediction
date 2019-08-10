@@ -233,7 +233,7 @@ Gradient boosting is a machine learning technique for regression and classificat
 
 \subsubsection{Analysis}
 
-\noindent For gradient Boosting, we do 75/25 splitting. We will generally use two tunning method to choose parameters. The first method is to use \verb caret \ package. This requires a few minutes to tune the parameters. \\
+\noindent For gradient Boosting, we do 75/25 splitting of training set and test set. We will generally use two tunning method to choose parameters. The first method is to use \verb caret \ package. This requires a few minutes to tune the parameters. \\
 \begin{table}[h]
     \label{default_model}
     \centering
@@ -328,6 +328,49 @@ Gradient boosting is a machine learning technique for regression and classificat
 \includegraphics[height=5.5cm]{ratingboostComplexity}\quad
 \includegraphics[height=5.5cm]{ratingboost2Complexity}\caption{Model complexity for the first model and the second model}
 \end{figure}
+
+\subsection{Generalized Additive Model}
+
+\subsubsection{Definition}
+
+\subsubsection{Analysis}
+
+\noindent For Generalized Additive Model, we do 85/15 splitting of training set and test set. We will generally implement two GAMs. The first GAM is regressing on bases of functions with only one explanatory and the second GAM is regressing on bases of functions with one or two explanatories. Each two explanatory variables is represented as interaction term. First of all, we look at the first GAM. While building the first GAM, we also want to tune how many degrees of freedom for each explanatory variable term. One way to do this is to use random effects. The basic idea is to generates an i.i.d. Gaussian random effect with model matrix. For example, If \verb g \ is a factor and \verb x \ is a numeric, then \verb s(x,g,bs='re')  produces an i.i.d. normal random slope relating the response to \verb x \ for each level of \verb g. \\
+
+\noindent For the second GAM, first we want to explore the interaction terms, but how do we do that? We generally use the \verb earth \ package to build a multiple adaptive regression spline and see which two variables highly interact with each other. From the R output of multiple hingh functions and their corresponding coefficients, we know that the interaction term could be \verb potential \ and \verb gk_reflexes , \verb dribbling \ and  \verb strength , \verb dribbling \ and \verb marking , \verb ball_control \ and \verb gk_reflexes , \verb ball_control \ and \verb gk_reflexes. After we find their interaction terms, we use the interaction function \verb ti(). From the following MSE and MSPE, we generally know that the second model performs better.\\
+\begin{table}[h]
+    \label{default_model}
+    \centering
+    \begin{tabular}{l c c c}
+        \hline
+        \textbf{Model} & \textbf{MSE} & \textbf{MSPE}\\ \hline
+        No interaction & 1.640802 & 1.797277 \\
+        With interaction & 1.320567 & 1.467482 \\
+        \hline
+    \end{tabular}
+    \caption{MSE and MSPE for the models with interaction and without interaction}
+\end{table}
+
+\noindent checking their anova tables, we can see which smooth term has a significant non-linear effect on the response by looking at the p-value. The following are the smooth terms that are not significiant with respect to the non-linear effect.\\
+\begin{table}[h]
+    \label{default_model}
+    \centering
+    \begin{tabular}{l c c}
+        \hline
+        \textbf{Smooth Terms} & \textbf{p-value}\\ \hline
+        s(volleys) & 0.042526 \\
+        s(free\_kick\_accuracy) & 0.141044 \\
+        s(agility) & 0.029730\\
+        s(balance) & 0.843734\\
+        s(penalties) & 0.110630\\
+        \hline
+    \end{tabular}
+    \caption{Smooth term from the anova table}
+\end{table}
+
+\noindent From above, the smooth term s(free\_kick\_accuracy), s(balance) and s(penalties) are not significant. The smooth term s(volleys) and s(agility) are statistically significant. Other smooth terms that are not mentioned are statistically highly significant since their p-value are less than $0.01$.
+
+
 
 
 \newpage
