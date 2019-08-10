@@ -12,4 +12,9 @@
 \contentsline {subsection}{\numberline {4.1}Gradient Boosting (Tree-based)}{4}{subsection.4.1}% 
 \contentsline {subsubsection}{\numberline {4.1.1}Definition}{4}{subsubsection.4.1.1}% 
 \contentsline {subsubsection}{\numberline {4.1.2}Analysis}{4}{subsubsection.4.1.2}% 
-\contentsline {section}{References}{8}{section*.2}% 
+\contentsline {subsection}{\numberline {4.2}Generalized Additive Model}{7}{subsection.4.2}% 
+\contentsline {subsubsection}{\numberline {4.2.1}Definition}{7}{subsubsection.4.2.1}% 
+\contentsline {subsubsection}{\numberline {4.2.2}Analysis}{8}{subsubsection.4.2.2}% 
+\contentsline {section}{\numberline {5}Conclusion}{9}{section.5}% 
+\contentsline {section}{\numberline {6}Future Work}{9}{section.6}% 
+\contentsline {section}{References}{10}{section*.2}% 
