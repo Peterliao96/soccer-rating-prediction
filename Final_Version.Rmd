@@ -1,12 +1,14 @@
 ---
 title: "Predicting Player Rating in FIFA"
-author: "Junqi Liao, Kaiwen Dong, Raymond Tan"
+author: "Junqi Liao(20650701), Kaiwen Dong(20626786), Raymond Tan(20611791)"
 date: "07/08/2019"
-output: pdf_document
-toc: yes
-toc_section: 2
+output:
+  pdf_document: default
+  word_document: default
 theme: united
 highlighted: tango
+toc: yes
+toc_section: 2
 ---
 
 ```{r setup, include=FALSE}
@@ -21,19 +23,42 @@ library(MASS)
 library(rpart)
 library(rpart.plot)
 library(randomForest)
+library(caret)
 set.seed(123)
 ```
 
 
 
 
-# Motivation and introduction of Report
+# Abstract 
+In this article, we decide to carry out the prediction on the European soccer player rating. The data is extracted from the database sqlite downloaded on Kaggle. The main goal is to use various statistics learning techniques we learn in class (GAM, Smoothing Spline, Regression Tree etc.), predict players’ overall_rating based on the model we build and see which method we use has the best performance from (e.g. MSE, MSPE etc). Before implementing the algorithms, we will go through each mathematical terminology for better understanding behind its corresponding algorithm. In particular, we will discuss further improvement after we evaluate the model performance.
 
-# Data
+# Introduction
+## Data
+The European soccer rating prediction problem on is based on a past Kaggle competition (https://www.kaggle.com/hugomathien/soccer). This data is extracted from the European Soccer Database with 25k+ matches, 10k+ players and teams attributes for European professional football. Regarding the database, it contains everything from V1 + some fixes (missing games, full team names) and a new table with team attribute.
+We preprocess the dataset from the file database.sqlite extracted in the data directory. Basically, we join two tables player and player_stats into rating_potential and produce the output of rating_potential.csv file. Noted that the variable gk_reflexes has a partial samples in the range of 65 to 85. In order to reduce the variability and maintain the normality, we basically transform that partial samples into the range of 0 to 20. The response variable overall_rating will not be affected too much because it represents the overall average of each explanatory variable and the average will not change a lot by law of large number. We decide to use this csv file as our main data source for this project. Noticed that we will also use the variable overall_ratingas our target, other attributes as our explanatory variables.
 
-# Preprocessing
+## Problem
+In this project, we want to apply six modern statistics learning techniques in this article, which are multiple linear regression, LASSO Regression and ridge regression based on the assumption that the model is linear and smooth using general additive model (GAM), gradient boosting (tree-based) and regression tree based on the assumption that the model is non-parametric respectively. Here, we list the assumption and techniques below:
 
-## Data Visualization
+* Linear Model
+  * Multiple linear regression
+  * LASSO regression
+  * Ridge regression
+* Non-parametric model
+  * General additive model (GAM)
+  * Gradient Boosting (Tree-based)
+  * Regression tree
+
+
+# Exploratory Data Analysis
+## Dimension of the Dataframe
+We observe that the dimension of the dataframe rating_potential is 10390 × 33. But we generally consider the subdataframe from the second column to the last column since the second column corre- sponds to the response variable overall_rating and the subdataframe from the third column to the last column corresponds to input dataframe.
+
+## Relationship between Exploratory and Response
+We first read in the table rating_potential and display the correlation plot for each explanatory vari- able and corresponding response overall_rating.This will give us some observation on the dataset and perspective on how to build the model, but this correlation only assumes the model is linear. We also want to observe any relationship between the explanatory variable and response variable if the model is non-linear. So we want to build both linear and non-linear model with different assumptions.
+
+
 
 
 # Smoothing Methods
@@ -55,6 +80,8 @@ mse <- function(y,yhat) {
 ```{r,echo=FALSE}
 soccer <- soccer.raw
 soccer$player_name <- NULL
+# soccer <- soccer[which(soccer$gk_reflexes <= 20),]
+# soccer$gk_reflexes <- NULL
 soccer$set <- ifelse(runif(n=nrow(soccer)) > 0.85,yes = 2,no = 1)
 #Split data into training set and testing set
 soccer.train <- soccer[which(soccer$set == 1),]
@@ -155,7 +182,6 @@ pruneTree.1se <- function(tree) {
   cplow.1se <- tree.cpt[se.row,1]
   cpup.1se <- ifelse(se.row==1, yes=1, no = tree.cpt[se.row-1,1])
   cp.1se <<- sqrt(cplow.1se*cpup.1se)
-  print(cp.1se)
   prune.1se <- prune(tree,cp = cp.1se )
   return(prune.1se)
 }
@@ -175,26 +201,25 @@ prune.1se <- pruneTree.1se(rt)
 prune.mincp <- pruneTree.min(rt)
 
 
-prp(rt, type=1, extra=1, main="Original full tree")
+# prp(rt, type=1, extra=1, main="Original full tree")
 
 #Calculating Unpruned Regression tree MSE and MSPE
 rt.mse <- calErr(rt,soccer.train.x,soccer.train$overall_rating)
 rt.mspe <- calErr(rt,soccer.test.x,soccer.test$overall_rating)
 rt.info <- c(rt.mse,rt.mspe)
-rt.info
+
 
 #Calculating pruned Regression tree MSE and MSPE
 prune.1se.mse <- calErr(prune.1se,soccer.train.x,soccer.train$overall_rating)
 prune.1se.mspe <- calErr(prune.1se,soccer.test.x,soccer.test$overall_rating)
 prune.1se.info <- c(prune.1se.mse,prune.1se.mspe)
 
-prune.1se.info
 
 prune.mincp.mse <- calErr(prune.mincp,soccer.train.x,soccer.train$overall_rating)
 prune.mincp.mspe <- calErr(prune.mincp,soccer.test.x,soccer.test$overall_rating)
 prune.mincp.info <- c(prune.mincp.mse,prune.mincp.mspe)
 
-prune.mincp.info
+
 
 
 err1 <- as.table(rbind(rt.info,prune.1se.info,prune.mincp.info))
@@ -202,15 +227,7 @@ colnames(err1) <- c("MSE","MSPE")
 rownames(err1) <- c("RT","1se","min")
 ```
 
-```{r,echo = FALSE}
-par(mfrow=c(1,2))
-prp(prune.1se, type=1, extra=1, main="Pruned+1se Tree")
-prp(prune.mincp, type=1, extra=1, main="Pruned+mincp Tree")
-```
-
-
-```{r,echo = FALSE}
-
+```{r eval=FALSE,include=FALSE}
 par(mfrow=c(1,2))
 plotcp(prune.1se)
 plotcp(prune.mincp)
@@ -250,13 +267,71 @@ rownames(err2) <- c("RT","1se","min")
 
 ```
 
+
 ```{r}
 err1
 err2
 ```
 
-
 ### Random Forest
+```{r eval=FALSE, include=FALSE}
+#try 1000 trees
+t <- seq(500,2500,500)
+p <- length(colnames(soccer.train))
+m <- ceiling(c(1,p/5,p/6,p/8))
+```
+
+
+```{r eval=FALSE, include=FALSE}
+#Optimal mtry = 7, Optimal ntrees = 1500
+rf.opt <- randomForest(soccer.train.x,soccer.train$overall_rating, mtry = 7, ntree = 1500,importance = TRUE,keep.forest = TRUE,maxnodes = 20)
+#Calculate OOB error
+OOB.opt <- sqrt(mse(soccer.train$overall_rating,rf.opt$predicted))
+yhat<- predict(rf.opt,soccer.test)
+mspes.opt <- sqrt(mse(soccer.test$overall_rating,yhat))
+
+rf.cv <- rfcv(trainx = soccer.train.x,trainy = soccer.train$overall_rating,ntree = 1500,cv.fold = 5)
+opt.info <- c(OOB.opt,mspes.opt)
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+rf.cv$error.cv
+
+temp <- soccer.train.x
+temp$shot_power <- NULL
+temp$short_passing <-NULL
+temp$vision <- NULL
+temp$sliding_tackle <- NULL
+temp$free_kick_accuracy <- NULL
+temp$acceleration <- NULL
+temp$sprint_speed<- NULL
+temp$penalties <- NULL
+temp$long_passing <- NULL
+temp$balance <- NULL
+
+
+rf.final <- randomForest(temp,soccer.train$overall_rating, mtry = 7, ntree = 1500,importance = TRUE,keep.forest = TRUE,maxnodes = 20)
+
+
+OOB <- sqrt(mse(soccer.train$overall_rating,rf.final$predicted))
+yhat <- predict(rf.final,soccer.test)
+mspes <- sqrt(mse(soccer.test$overall_rating,yhat))
+
+
+final.info <- c(OOB,mspes)
+OOB.table <- as.table(rbind(opt.info,final.info))
+colnames(OOB.table) <- c("OOB","MSPE")
+rownames(OOB.table) <- c("31 vars","15 vars")
+OOB.table
+```
+
+
+The 15 most importance variables in the final random forest model are selected by using 5-fold cross validation are:
+ over_rating ~ reations + potential + ball_control + positioning
+     + standing_tackle + gk_reflexes + interceptions+ heading_accuracys + marking + dribbling + crossing
+      + long_shots + volleys + stamina + agility 
 
 # Statistical Conclusions
 
@@ -304,4 +379,8 @@ err2
 
 ## R-Code
 ```{r ref.label=knitr::all_labels(), echo = T, eval = F}
+
 ```
+
+
+
