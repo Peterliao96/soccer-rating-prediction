@@ -337,7 +337,11 @@ The model relates a univariate response variable, $Y$, to some predictor variabl
 \begin{equation*}
 g(E(Y)) = \beta_0 + f_1(x_1) + f_2(x_2) + \cdots + f_m(x_m)
 \end{equation*}
-where the functions $f_i$ may be functions with a specified parametric form (for example a polynomial, or an un-penalized regression spline of a variable) or may be specified non-parametrically, or semi-parametrically, simply as 'smooth functions', to be estimated by non-parametric means.
+where the functions $f_i$ may be functions with a specified parametric form (for example a polynomial, or an un-penalized regression spline of a variable) or may be specified non-parametrically, or semi-parametrically, simply as 'smooth functions', to be estimated by non-parametric means. If we consider interaction effect between to functions of covariates, then GAM of basis of functions with any two convariates $x_i, x_j$ can be represented as:
+\begin{equation*}
+g(E(Y)) = \beta_0 + f_i(x_i) + f_j(x_j) + f_{i,j}(x_i, x_j)
+\end{equation*}
+where this GAM will consider the interaction effect.
 \subsubsection{Analysis}
 
 \noindent For Generalized Additive Model, we do 85/15 splitting of training set and test set. We will generally implement two GAMs. The first GAM is regressing on bases of functions with only one explanatory and the second GAM is regressing on bases of functions with one or two explanatories. Each two explanatory variables is represented as interaction term. First of all, we look at the first GAM. While building the first GAM, we also want to tune how many degrees of freedom for each explanatory variable term. One way to do this is to use random effects. The basic idea is to generates an i.i.d. Gaussian random effect with model matrix. For example, If \verb g \ is a factor and \verb x \ is a numeric, then \verb s(x,g,bs='re')  produces an i.i.d. normal random slope relating the response to \verb x \ for each level of \verb g. \\
@@ -396,6 +400,10 @@ where the functions $f_i$ may be functions with a specified parametric form (for
 \item Smooth terms with p-value greater than 0.05 indicates they are not significant to the model with respect to their non-linear effect.
 \end{itemize}
 \end{enumerate}
+
+\section{Future Work}
+
+\noindent For future work, we would like to explore deeper into the LASSO Regression, since LASSO Regression has a feature of $L_1$ regularization, so could we combine its feature to penalize a non-parametric spline? Regarding to the grid search method and using \verb caret \ package to do parameter tuning, it is very time consuming to tune large number of parameters, could we do optimization to decrease its running time? In terms of the GAM, is there an approach to search the interaction terms via GAM?
 
 \newpage
 

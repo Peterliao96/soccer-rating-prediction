@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1565456787 "stat444report.tex" "stat444report.pdf" "stat444report" 1565456789
-  "/dev/null" 1565456782 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1565458703 "stat444report.tex" "stat444report.pdf" "stat444report" 1565458705
+  "/dev/null" 1565458704 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -210,17 +210,17 @@
   "ratingboost2Complexity.png" 1565290159 22136 1024088a9beabb8a15512ce8227a35db ""
   "ratingboostComplexity.png" 1565235359 22745 ef495fbca5bc9f16443808db43ec6af1 ""
   "scatterplot1.png" 1562359027 72085 1d0db00f74d03773df6f78706944edc7 ""
-  "stat444report.aux" 1565456789 5589 10a2ea492396b6b56688ed52b52c4eca "pdflatex"
-  "stat444report.out" 1565456789 1217 7a129db1c1eb9f32cd1aa809db83eb37 "pdflatex"
-  "stat444report.tex" 1565456787 25676 5493f85117afb4bdb005a2b8377c4d14 ""
-  "stat444report.toc" 1565456789 1557 73fb2e86661a3b28af207f1cd6ff79ef "pdflatex"
+  "stat444report.aux" 1565458705 5697 c6bf69c92ca93d3952f580d50eb99f9a "pdflatex"
+  "stat444report.out" 1565458705 1264 7e691f7874c924d9d88fc2eebae51e89 "pdflatex"
+  "stat444report.tex" 1565458703 26516 39e7702342447158a2575448dc27daa0 ""
+  "stat444report.toc" 1565458705 1625 a8f1ca1b3e89a1e777b1ca589b67d454 "pdflatex"
   "varImpXgb.png" 1565233075 37063 812662a7843a5feeb570279241bd872c ""
   "varImpXgb2.png" 1565290259 35234 82f67a3e188b78c85556ec876b4c9a5c ""
   "xgb1TestErr.png" 1565295902 31415 c9a172fbe1b8769ac01749323ee70f29 ""
   "xgb1trainingErr.png" 1565295884 33417 94676a4824f0246ee577010606414f3e ""
   (generated)
-  "stat444report.out"
   "stat444report.toc"
   "stat444report.aux"
-  "stat444report.log"
   "stat444report.pdf"
+  "stat444report.log"
+  "stat444report.out"
