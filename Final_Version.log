@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  10 AUG 2019 14:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  10 AUG 2019 17:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -977,186 +977,299 @@ LaTeX Font Info:    Try loading font information for TS1+lmr on input line 191.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [2] <report/fig1.png, id=148, 773.89125pt x 371.3875pt>
-File: report/fig1.png Graphic file (type png)
-<use report/fig1.png>
-Package pdftex.def Info: report/fig1.png used on input line 243.
+) [2]
+</Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/repo
+rt/fig1.png, id=199, 773.89125pt x 371.3875pt>
+File: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction
+/report/fig1.png Graphic file (type png)
+
+<use /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/
+report/fig1.png>
+Package pdftex.def Info: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/socce
+r-rating-prediction/report/fig1.png used on input line 243.
 (pdftex.def)             Requested size: 469.75848pt x 225.43532pt.
-[3 <./report/fig1.png>]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 279.
+[3 </Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/r
+eport/fig1.png>]
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 285.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 327.
-[4]
-Underfull \hbox (badness 1603) in paragraph at lines 377--381
-[]\T1/lmr/m/n/10 (+20) Overall_rating = po-ten-tial + cross-ing + short_passing
-+volleys + drib-bling + long_passing +
- []
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 325.
+[4] [5]
+</Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/repo
+rt/fig6.png, id=233, 1682.285pt x 604.2575pt>
+File: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction
+/report/fig6.png Graphic file (type png)
 
+<use /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/
+report/fig6.png>
+Package pdftex.def Info: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/socce
+r-rating-prediction/report/fig6.png used on input line 430.
+(pdftex.def)             Requested size: 469.75311pt x 168.72993pt.
 
-<Final_Version_files/figure-latex/unnamed-chunk-6-1.pdf, id=169, 440.64626pt x 
+<Final_Version_files/figure-latex/unnamed-chunk-7-1.pdf, id=234, 440.64626pt x 
 285.065pt>
-File: Final_Version_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (type
- pdf)
-<use Final_Version_files/figure-latex/unnamed-chunk-6-1.pdf>
-Package pdftex.def Info: Final_Version_files/figure-latex/unnamed-chunk-6-1.pdf
- used on input line 405.
-(pdftex.def)             Requested size: 440.64517pt x 285.0643pt.
-[5]
-<Final_Version_files/figure-latex/unnamed-chunk-7-1.pdf, id=176, 459.7175pt x 3
-13.17pt>
 File: Final_Version_files/figure-latex/unnamed-chunk-7-1.pdf Graphic file (type
  pdf)
 <use Final_Version_files/figure-latex/unnamed-chunk-7-1.pdf>
 Package pdftex.def Info: Final_Version_files/figure-latex/unnamed-chunk-7-1.pdf
- used on input line 415.
+ used on input line 465.
+(pdftex.def)             Requested size: 440.64517pt x 285.0643pt.
+[6 </Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/r
+eport/fig6.png>]
+<Final_Version_files/figure-latex/unnamed-chunk-9-1.pdf, id=244, 459.7175pt x 3
+13.17pt>
+File: Final_Version_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (type
+ pdf)
+<use Final_Version_files/figure-latex/unnamed-chunk-9-1.pdf>
+Package pdftex.def Info: Final_Version_files/figure-latex/unnamed-chunk-9-1.pdf
+ used on input line 483.
 (pdftex.def)             Requested size: 459.7304pt x 313.17877pt.
-[6 <./Final_Version_files/figure-latex/unnamed-chunk-6-1.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 432--438
+[7 <./Final_Version_files/figure-latex/unnamed-chunk-7-1.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 485--495
+
+ []
+
+[8 <./Final_Version_files/figure-latex/unnamed-chunk-9-1.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 562--566
 
  []
 
 
-LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 4
-45.
+Underfull \hbox (badness 10000) in paragraph at lines 589--595
+
+ []
 
 
-LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 4
-45.
+LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 6
+02.
 
 
-LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 4
-45.
+LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 6
+02.
 
 
-LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 4
-45.
+LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 6
+02.
 
 
-LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 4
-45.
+LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 6
+02.
 
 
-LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 4
-45.
+LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 6
+02.
 
 
-LaTeX Warning: Command \textasciicircum invalid in math mode on input line 447.
+LaTeX Warning: Command \textperiodcentered invalid in math mode on input line 6
+02.
 
 
-[7 <./Final_Version_files/figure-latex/unnamed-chunk-7-1.pdf>] <report/fig2.png
-, id=207, 1221.56375pt x 398.48875pt>
-File: report/fig2.png Graphic file (type png)
-<use report/fig2.png>
-Package pdftex.def Info: report/fig2.png used on input line 485.
+LaTeX Warning: Command \textasciicircum invalid in math mode on input line 604.
+
+
+[9]
+</Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/repo
+rt/fig2.png, id=279, 1221.56375pt x 398.48875pt>
+File: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction
+/report/fig2.png Graphic file (type png)
+
+<use /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/
+report/fig2.png>
+Package pdftex.def Info: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/socce
+r-rating-prediction/report/fig2.png used on input line 642.
 (pdftex.def)             Requested size: 469.75363pt x 153.23926pt.
-[8 <./report/fig2.png>] <report/fig3.png, id=215, 947.54pt x 309.155pt>
-File: report/fig3.png Graphic file (type png)
-<use report/fig3.png>
-Package pdftex.def Info: report/fig3.png used on input line 530.
+[10 </Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/
+report/fig2.png>]
+</Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/repo
+rt/fig3.png, id=289, 947.54pt x 309.155pt>
+File: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction
+/report/fig3.png Graphic file (type png)
+
+<use /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/
+report/fig3.png>
+Package pdftex.def Info: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/socce
+r-rating-prediction/report/fig3.png used on input line 687.
 (pdftex.def)             Requested size: 469.74944pt x 153.2657pt.
-<report/fig4.png, id=216, 1316.92pt x 490.83376pt>
-File: report/fig4.png Graphic file (type png)
-<use report/fig4.png>
-Package pdftex.def Info: report/fig4.png used on input line 558.
+
+</Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/repo
+rt/fig4.png, id=290, 1316.92pt x 490.83376pt>
+File: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction
+/report/fig4.png Graphic file (type png)
+
+<use /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/
+report/fig4.png>
+Package pdftex.def Info: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/socce
+r-rating-prediction/report/fig4.png used on input line 715.
 (pdftex.def)             Requested size: 446.25989pt x 166.32704pt.
-[9 <./report/fig3.png> <./report/fig4.png>] <report/fig5.png, id=225, 1003.75pt
- x 336.25626pt>
-File: report/fig5.png Graphic file (type png)
-<use report/fig5.png>
-Package pdftex.def Info: report/fig5.png used on input line 573.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[11 </Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/
+report/fig3.png>]
+</Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/repo
+rt/fig5.png, id=297, 1003.75pt x 336.25626pt>
+File: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction
+/report/fig5.png Graphic file (type png)
+
+<use /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/
+report/fig5.png>
+Package pdftex.def Info: /Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/socce
+r-rating-prediction/report/fig5.png used on input line 730.
 (pdftex.def)             Requested size: 469.75618pt x 157.36832pt.
-[10 <./report/fig5.png>] [11]
-LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 798
-.
+[12 </Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-rating-prediction/
+report/fig4.png> </Users/Raymond/Desktop/Raymond Tan/HW/4B/STAT444/soccer-ratin
+g-prediction/report/fig5.png>] [13] [14]
+LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 101
+0.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Underfull \vbox (badness 3138) detected at line 1064
- []
-
-[12]
-Underfull \vbox (badness 10000) detected at line 1064
+) [15]
+Underfull \vbox (badness 10000) detected at line 1648
  []
 
 
-Underfull \vbox (badness 10000) detected at line 1064
- []
-
-[13]
-Underfull \vbox (badness 10000) detected at line 1064
- []
-
-
-Underfull \vbox (badness 10000) detected at line 1064
- []
-
-[14]
-Underfull \vbox (badness 10000) detected at line 1064
- []
-
-
-Underfull \vbox (badness 10000) detected at line 1064
- []
-
-[15]
-Underfull \vbox (badness 10000) detected at line 1064
- []
-
-
-Underfull \vbox (badness 10000) detected at line 1064
+Underfull \vbox (badness 10000) detected at line 1648
  []
 
 [16]
-Underfull \vbox (badness 10000) detected at line 1064
+Underfull \vbox (badness 10000) detected at line 1648
  []
 
 
-Underfull \vbox (badness 10000) detected at line 1064
+Underfull \vbox (badness 10000) detected at line 1648
  []
 
 [17]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1089.
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
 [18]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1089.
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+[19]
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+[20]
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+[21]
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+[22]
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+[23]
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+[24]
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+[25]
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+[26]
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1648
+ []
+
+[27] [28]
+Overfull \hbox (5.8134pt too wide) in paragraph at lines 1669--1672
+\T1/lmr/m/n/10 (-20) From: []$http : / / corysimon . github . io / articles / f
+eature-[]importance-[]in-[]random-[]forests-[]when-[]features-[]are-[]correlate
+d/$[] 
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1674.
+[29]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1674.
 (./Final_Version.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1089.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1089.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1674.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1674.
 
 Package rerunfilecheck Info: File `Final_Version.out' has not changed.
-(rerunfilecheck)             Checksum: A990EA33A6DEE9FACDB5ABAEC88EE24D;3317.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1089.
+(rerunfilecheck)             Checksum: 611EFE688376AD3A56CDE4BA7BE53039;4394.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1674.
  ) 
 Here is how much of TeX's memory you used:
- 13077 strings out of 492995
- 190741 string characters out of 6132704
- 350497 words of memory out of 5000000
- 16292 multiletter control sequences out of 15000+600000
- 52999 words of font info for 84 fonts, out of 8000000 for 9000
+ 13147 strings out of 492995
+ 193327 string characters out of 6132704
+ 448083 words of memory out of 5000000
+ 16316 multiletter control sequences out of 15000+600000
+ 53580 words of font info for 91 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 32i,9n,38p,638b,455s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 32i,9n,40p,638b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local
 /texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/2017/
 texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2017/texmf-dist
-/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2017/texmf-dist/fonts/enc
-/dvips/lm/lm-rm.enc}</usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/l
-mbx10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmbx12.pfb>
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/loca
-l/texlive/2017/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2
-017/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2017/texmf-d
-ist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2017/texmf-dist/fonts/t
-ype1/public/lm/lmri12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/publi
-c/lm/lmsy10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmtk1
-0.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></us
-r/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/local/t
-exlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Final_Version.pdf (18 pages, 1795224 bytes).
+/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvi
+ps/lm/lm-mathex.enc}{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-m
+athit.enc}</usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmbx10.pfb>
+</usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/loca
+l/texlive/2017/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/
+2017/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2017/texmf
+-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts
+/type1/public/lm/lmr10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/publ
+ic/lm/lmr17.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmr7.
+pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/
+local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texl
+ive/2017/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2017/t
+exmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2017/texmf-dist/
+fonts/type1/public/lm/lmtti10.pfb></usr/local/texlive/2017/texmf-dist/fonts/typ
+e1/public/amsfonts/symbols/msbm10.pfb>
+Output written on Final_Version.pdf (29 pages, 2271694 bytes).
 PDF statistics:
- 356 PDF objects out of 1000 (max. 8388607)
- 304 compressed objects within 4 object streams
- 75 named destinations out of 1000 (max. 500000)
- 8420 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 476 PDF objects out of 1000 (max. 8388607)
+ 408 compressed objects within 5 object streams
+ 107 named destinations out of 1000 (max. 500000)
+ 8505 words of extra memory for PDF output out of 10000 (max. 10000000)
 
