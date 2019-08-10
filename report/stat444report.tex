@@ -333,6 +333,11 @@ Gradient boosting is a machine learning technique for regression and classificat
 
 \subsubsection{Definition}
 
+The model relates a univariate response variable, $Y$, to some predictor variables, $x_i$. An exponential family distribution is specified for $Y$ (for example normal, binomial or Poisson distributions) along with a link function g (for example the identity or log functions) relating the expected value of $Y$ to the predictor variables via a structure such as
+\begin{equation*}
+g(E(Y)) = \beta_0 + f_1(x_1) + f_2(x_2) + \cdots + f_m(x_m)
+\end{equation*}
+where the functions $f_i$ may be functions with a specified parametric form (for example a polynomial, or an un-penalized regression spline of a variable) or may be specified non-parametrically, or semi-parametrically, simply as 'smooth functions', to be estimated by non-parametric means.
 \subsubsection{Analysis}
 
 \noindent For Generalized Additive Model, we do 85/15 splitting of training set and test set. We will generally implement two GAMs. The first GAM is regressing on bases of functions with only one explanatory and the second GAM is regressing on bases of functions with one or two explanatories. Each two explanatory variables is represented as interaction term. First of all, we look at the first GAM. While building the first GAM, we also want to tune how many degrees of freedom for each explanatory variable term. One way to do this is to use random effects. The basic idea is to generates an i.i.d. Gaussian random effect with model matrix. For example, If \verb g \ is a factor and \verb x \ is a numeric, then \verb s(x,g,bs='re')  produces an i.i.d. normal random slope relating the response to \verb x \ for each level of \verb g. \\
@@ -370,8 +375,27 @@ Gradient boosting is a machine learning technique for regression and classificat
 
 \noindent From above, the smooth term s(free\_kick\_accuracy), s(balance) and s(penalties) are not significant. The smooth term s(volleys) and s(agility) are statistically significant. Other smooth terms that are not mentioned are statistically highly significant since their p-value are less than $0.01$.
 
+\section{Conclusion}
 
-
+\begin{enumerate}
+\item LASSO Regression
+\begin{itemize}
+\item LASSO Regression might not greatly fit the model compared with non-parametric regression.
+\item There is not too much difference  between MSE and MSPE whether scaling or not if using LASSO Regression.
+\end{itemize}
+\item Gradient Boosting (Tree-based)
+\begin{itemize}
+\item Gradient boosting model with Lower shrinkage and larger number of iteration performs better with respect to its prediction.
+\item Tuning parameters using grid search method could bring better model performance in prediction.
+\item Both variables \verb potential \ and \verb reactions \ are important to the gradient boosting model.
+\end{itemize}
+\item Generalized Additive Model
+\begin{itemize}
+\item Simply using the basis functions of smooth term will ignore the interaction effect among pairs of explanatory variables.
+\item Regressing on the basis of functions considering interaction is better than regressing on the basis of functions without considering interaction.
+\item Smooth terms with p-value greater than 0.05 indicates they are not significant to the model with respect to their non-linear effect.
+\end{itemize}
+\end{enumerate}
 
 \newpage
 
